@@ -135,6 +135,9 @@ $("shform").addEventListener("submit",e=>{e.preventDefault();const n=$("fname").
  $("ferr").textContent="";$("fsend").classList.add("done");$("fsend").disabled=true;
  const s=SEL,f=new FormData();
  f.append("EMAIL",m);f.append("PRENOM",n);f.append("PRODUIT",s.produit);f.append("TAILLE",s.taille||"");f.append("COLORIS",s.coloris||"");
+ /* Une case par pièce : une 2e demande ne remplace pas la 1re */
+ const A={tee:"TSHIRT",cap:"CASQUETTE",pull:"PULL",idee:"IDEE"};
+ if(A[s.k])f.append(A[s.k],s.idea?s.produit.replace(/^Idée : /,""):s.taille+" · "+s.coloris);
  f.append("email_address_check","");f.append("locale","fr");f.append("html_type","simple");
  fetch(BREVO+"?isAjax=1",{method:"POST",mode:"no-cors",body:f}).then(()=>{
   setTimeout(()=>{$("shform").hidden=true;$("shok").hidden=false;$("okt").textContent="C'est noté, "+n+" !";
